@@ -1,1 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Mario Elías Pérez Mayorga</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables por defecto (Tema Oscuro Original) */
+        :root {
+            --bg-color: #0f172a;
+            --primary: #0ea5e9;
+            --primary-glow: rgba(14, 165, 233, 0.5);
+            --grid-line: rgba(14, 165, 233, 0.05);
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --panel-bg: #1e293b;
+            --whatsapp: #25D366;
+            
+            /* Colores de etiquetas educativas */
+            --tag-lic: #8b5cf6;
+            --tag-dip: #ec4899;
+            --tag-esp: #f59e0b;
+        }
 
+        /* Variables para el Tema Claro (Fresco e Innovador) */
+        body.light-theme {
+            --bg-color: #f8fafc;
+            --primary: #059669;
+            --primary-glow: rgba(5, 150, 105, 0.4);
+            --grid-line: rgba(5, 150, 105, 0.08);
+            --text-light: #0f172a;
+            --text-muted: #475569;
+            --panel-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Canvas - Red Neuronal */
+        #neural-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Botón Cambiar Tema */
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: var(--panel-bg);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 1.3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px var(--primary-glow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 0 25px var(--primary-glow);
+        }
+
+        /* Contenedor del Universo */
+        .universe {
+            position: relative;
+            width: 700px;
+            height: 700px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Centro: Perfil */
+        .center-profile {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: var(--panel-bg);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 40px var(--primary-glow);
+            border: 3px solid var(--primary);
+            text-align: center;
+            overflow: hidden; 
+        }
+
+        /* Abstracto Visual (Blob) */
+        .center-profile::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: linear-gradient(45deg, var(--primary-glow), transparent);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morph 8s ease-in-out infinite alternate;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes morph {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+
+        .center-profile img {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 5px;
+            border: 2px solid var(--primary);
+            z-index: 1;
+        }
+
+        .center-profile h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.1;
+            z-index: 1;
+        }
+
+        .center-profile p {
+            font-size: 0.7rem;
+            color: var(--primary);
+            margin-top: 2px;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .center-profile .abstract-text {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            padding: 0 15px;
+            font-style: italic;
+            line-height: 1.3;
+            z-index: 1;
+        }
+
+        /* Nodos Orbitales (Ahora más grandes) */
+        .node {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            background: var(--panel-bg);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            text-align: center;
+            /* Efecto de Flotación */
+            animation: floatNode 4s ease-in-out infinite;
+        }
+
+        @keyframes floatNode {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1); }
+        }
+
+        body:not(.light-theme) .node {
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        /* Pausar animación de flotación al hacer hover para hacer el zoom */
+        .node:hover, .node.active {
+            animation: none;
+            background: var(--primary);
+            box-shadow: 0 0 35px var(--primary-glow);
+            transform: scale(1.15) !important; /* Importante para sobreescribir el float */
+        }
+
+        .node i {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+
+        .node span {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-light);
+            padding: 0 5px;
+        }
+
+        .node:hover i, .node:hover span, .node.active i, .node.active span {
+            color: #ffffff;
+        }
+
+        /* Panel Lateral de Detalles */
+        .details-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 450px;
+            height: 100vh;
+            background: var(--panel-bg);
+            box-shadow: -10px 0 40px rgba(0,0,0,0.4);
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 100;
+            padding: 50px 40px;
+            overflow-y: auto;
+        }
+
+        .details-panel.open {
+            right: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: var(--primary);
+        }
+
+        .panel-content h1 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 2rem;
+            border-bottom: 2px solid var(--primary-glow);
+            padding-bottom: 10px;
+        }
+
+        .panel-content h3 {
+            margin-top: 25px;
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        .panel-content p, .panel-content li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-top: 10px;
+        }
+
+        .panel-content ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .panel-content strong {
+            color: var(--text-light);
+        }
+
+        /* Estilos específicos para Educación */
+        .edu-list {
+            list-style: none;
+            padding-left: 0 !important;
+        }
+        
+        .edu-list li {
+            position: relative;
+            padding-left: 15px;
+            border-left: 3px solid var(--primary-glow);
+            margin-bottom: 20px;
+        }
+
+        .edu-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge-lic { background-color: var(--tag-lic); }
+        .badge-dip { background-color: var(--tag-dip); }
+        .badge-esp { background-color: var(--tag-esp); }
+        .badge-cur { background-color: var(--text-muted); }
+
+        .edu-list strong {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        /* Botón WhatsApp */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background-color: var(--whatsapp);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 50;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .universe { width: 380px; height: 380px; }
+            .details-panel { width: 100%; padding: 40px 20px; }
+            .whatsapp-btn { bottom: 20px; left: 20px; padding: 12px 20px; font-size: 0.9rem; }
+            .theme-toggle { top: 20px; right: 20px; left: auto; width: 40px; height: 40px; font-size: 1rem; }
+            .center-profile { width: 180px; height: 180px; }
+            .node { width: 85px; height: 85px; }
+            .node i { font-size: 1.4rem; }
+            .node span { font-size: 0.55rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="neural-bg"></canvas>
+
+    <button id="theme-toggle" class="theme-toggle" title="Cambiar Tema">
+        <i class="fas fa-sun"></i>
+    </button>
+
+    <div class="universe" id="universe">
+        <div class="center-profile">
+            <img src="FOTOS/1.jpg" alt="Mario Elías Pérez Mayorga" onerror="this.src='https://via.placeholder.com/100?text=Mario'">
+            <h2>Mario Pérez M.</h2>
+            <p>Líder Transformación Digital</p>
+            <div class="abstract-text">Conectando la estructura técnica con el arte de la evolución humana.</div>
+        </div>
+        </div>
+
+    <a href="https://wa.me/525533019833?text=Hola%20Mario,%20he%20visto%20tu%20CV%20interactivo%20y%20me%20gustaría%20contactarte." class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i> Contactar
+    </a>
+
+    <div class="details-panel" id="details-panel">
+        <button class="close-btn" id="close-btn"><i class="fas fa-times"></i></button>
+        <div class="panel-content" id="panel-content">
+            </div>
+    </div>
+
+    <script>
+        // --- LÓGICA DE RED NEURONAL (CANVAS) ---
+        const canvas = document.getElementById('neural-bg');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if(this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                if(this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+            }
+            draw(color) {
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            const numberOfParticles = (canvas.height * canvas.width) / 12000; 
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Determinar el color basado en el tema
+            const isLight = document.body.classList.contains('light-theme');
+            const dotColor = isLight ? 'rgba(5, 150, 105, 0.4)' : 'rgba(14, 165, 233, 0.4)';
+            const lineColorBase = isLight ? '5, 150, 105' : '14, 165, 233';
+
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw(dotColor);
+
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(${lineColorBase}, ${1 - distance/120})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+
+        // --- LÓGICA DE CAMBIO DE TEMA ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            if (document.body.classList.contains('light-theme')) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+
+        // --- DATOS DEL CV (Ahora con 6 elementos y educación jerarquizada) ---
+        const cvData = [
+            {
+                id: "perfil",
+                title: "Perfil",
+                icon: "fa-user-tie",
+                content: `
+                    <h1>Perfil Profesional</h1>
+                    <p>Profesional experto en <strong>Transformación Digital, Gestión de Proyectos y Gobierno TI</strong>, apasionado por el impacto de la tecnología en el desarrollo organizacional.</p>
+                    <p>Cuento con una sólida trayectoria en la mitigación de riesgos tecnológicos y el diseño de estrategias integrales de adopción.</p>
+                    <p>Destaco por mi enfoque en la evolución humana como pilar del cambio, mi capacidad para gestionar proyectos complejos de punta a punta y mi experiencia como creador e instructor de programas de formación en <strong>Inteligencia Artificial (IA)</strong>.</p>
+                `
+            },
+            {
+                id: "experiencia",
+                title: "Experiencia",
+                icon: "fa-briefcase",
+                content: `
+                    <h1>Experiencia Laboral</h1>
+                    <h3>Grupo México (2017 - Actualidad)</h3>
+                    <ul>
+                        <li><strong>Líder de Riesgos, Normatividad y Gobierno TI (2025 - Act):</strong> Liderazgo estratégico en Gobierno TI, mitigación de riesgos y proyectos transversales de estandarización.</li>
+                        <li><strong>Líder de Adopción Tecnológica (2024 - 2025):</strong> Diseño e implementación del Plan Integral de Adopción, gestión del cambio y creación de cursos corporativos de Inteligencia Artificial.</li>
+                        <li><strong>Líder de Transformación Digital (2017 - 2024):</strong> Diseño de estrategias de modernización de procesos y desarrollo de cultura digital.</li>
+                    </ul>
+                    <h3>Intermodal México (2012 - 2016)</h3>
+                    <ul>
+                        <li><strong>Coordinador de Contenidos Digitales:</strong> Liderazgo en intranet SharePoint, migraciones de correo, portales web corporativos y plataformas e-learning.</li>
+                    </ul>
+                `
+            },
+            {
+                id: "software",
+                title: "Software",
+                icon: "fa-laptop-code",
+                content: `
+                    <h1>Habilidades Técnicas</h1>
+                    <h3>Ecosistema Power Platform & PowerPoint Avanzado</h3>
+                    <ul>
+                        <li><strong>Data Storytelling & UX Prototyping:</strong> Uso de PowerPoint como herramienta ágil para el prototipado de interfaces, estandarización visual de Gobierno TI y traducción de datos complejos.</li>
+                        <li><strong>Automatización VBA:</strong> Creación de macros para la optimización de flujos de trabajo y reportes ejecutivos.</li>
+                        <li><strong>Integración de Datos:</strong> Conexión nativa con herramientas como Power BI y aplicaciones desarrolladas en PowerApps para el seguimiento de riesgos.</li>
+                    </ul>
+                    <h3>Desarrollo y Web</h3>
+                    <p>HTML5, CSS, JavaScript, Ruby on Rails, GitHub.</p>
+                    <h3>Diseño y Multimedia</h3>
+                    <p>Adobe Photoshop, Illustrator, InDesign, After Effects, Premiere/Final Cut, Audition.</p>
+                `
+            },
+            {
+                id: "proyectos", // NUEVO NODO #4
+                title: "Proyectos",
+                icon: "fa-rocket",
+                content: `
+                    <h1>Proyectos Destacados</h1>
+                    <ul>
+                        <li><strong>Piloto de Habilidades Blandas (TI):</strong> Diseño e implementación de un curso piloto intensivo enfocado en el desarrollo humano para un departamento de tecnología de más de 200 ingenieros.</li>
+                        <li><strong>Arquitectura de Datos Comerciales:</strong> Diseño, estructuración e implementación de una Base de Datos Maestra de SKUs altamente escalable en Notion para la gestión precisa de inventarios.</li>
+                        <li><strong>Ecosistema Digital Escénico:</strong> Desarrollo integral de Landing Pages (HTML5), integración de embudos de conversión en Meta Business Suite y gestión de reservas en WhatsApp para producciones teatrales en circuitos culturales de CDMX.</li>
+                    </ul>
+                `
+            },
+            {
+                id: "habilidades",
+                title: "Gestión",
+                icon: "fa-project-diagram",
+                content: `
+                    <h1>Competencias Estratégicas</h1>
+                    <ul>
+                        <li><strong>Gestión de Proyectos (PM):</strong> Planificación, ejecución y monitoreo asegurando tiempos y objetivos.</li>
+                        <li><strong>Gobierno TI y Riesgos:</strong> Creación de marcos normativos y mitigación de vulnerabilidades.</li>
+                        <li><strong>Capacitación (IA):</strong> Diseño instruccional y generación de cursos técnicos.</li>
+                        <li><strong>Liderazgo y Gestión del Cambio:</strong> Guía de equipos en transiciones tecnológicas.</li>
+                        <li><strong>Comunicación Efectiva:</strong> Traducción de conceptos técnicos a audiencias ejecutivas.</li>
+                    </ul>
+                `
+            },
+            {
+                id: "educacion",
+                title: "Educación",
+                icon: "fa-graduation-cap",
+                content: `
+                    <h1>Formación Académica</h1>
+                    <ul class="edu-list">
+                        <li>
+                            <span class="edu-badge badge-lic">Licenciatura</span>
+                            <strong>Ciencias de la Comunicación</strong>
+                            UNAM (2011)
+                        </li>
+                        <li>
+                            <span class="edu-badge badge-dip">Diplomado</span>
+                            <strong>Gestión de Proyectos Profesionales</strong>
+                            Prete, Tec de Monterrey
+                        </li>
+                        <li>
+                            <span class="edu-badge badge-esp">Especialidad</span>
+                            <strong>Front End y Ruby on Rails</strong>
+                            Desafío Latam (2016)
+                        </li>
+                        <li>
+                            <span class="edu-badge badge-esp">Especialidad</span>
+                            <strong>Profesionalización Teatral</strong>
+                            Casa del Teatro CEDRAM (2011-2014)
+                        </li>
+                        <li>
+                            <span class="edu-badge badge-cur">Curso Adicional</span>
+                            <strong>Estudios Cinematográficos</strong>
+                            Altafílmica (2013)
+                        </li>
+                        <li>
+                            <span class="edu-badge badge-cur">Curso Técnico</span>
+                            <strong>SharePoint</strong>
+                            Mentorii Learning Center (2017)
+                        </li>
+                    </ul>
+                `
+            }
+        ];
+
+        const universe = document.getElementById('universe');
+        const detailsPanel = document.getElementById('details-panel');
+        const closeBtn = document.getElementById('close-btn');
+        const panelContent = document.getElementById('panel-content');
+
+        // Radio ajustado para dar espacio a los nodos más grandes (110px)
+        const radius = window.innerWidth < 768 ? 165 : 260; 
+        const centerX = universe.offsetWidth / 2;
+        const centerY = universe.offsetHeight / 2;
+
+        // Generar los 6 nodos dinámicamente
+        cvData.forEach((item, index) => {
+            const angle = (index / cvData.length) * (2 * Math.PI) - (Math.PI / 2); 
+            // Restamos 55 (mitad de 110px de ancho/alto) para centrar perfectamente el nodo
+            const x = centerX + radius * Math.cos(angle) - 55; 
+            const y = centerY + radius * Math.sin(angle) - 55;
+
+            const node = document.createElement('div');
+            node.className = 'node';
+            node.style.left = `${x}px`;
+            node.style.top = `${y}px`;
+            
+            // Retraso de animación en cascada para la flotación
+            node.style.animationDelay = `${index * 0.4}s`; 
+            
+            node.innerHTML = `
+                <i class="fas ${item.icon}"></i>
+                <span>${item.title}</span>
+            `;
+
+            node.addEventListener('click', () => {
+                document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+                node.classList.add('active');
+                
+                panelContent.innerHTML = item.content;
+                detailsPanel.classList.add('open');
+            });
+
+            universe.appendChild(node);
+        });
+
+        // Evento para cerrar el panel
+        closeBtn.addEventListener('click', () => {
+            detailsPanel.classList.remove('open');
+            document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+        });
+
+        // Cerrar panel al hacer clic fuera
+        document.addEventListener('click', (e) => {
+            if (!detailsPanel.contains(e.target) && !universe.contains(e.target) && !themeToggle.contains(e.target) && detailsPanel.classList.contains('open')) {
+                detailsPanel.classList.remove('open');
+                document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+            }
+        });
+    </script>
+</body>
+</html>
